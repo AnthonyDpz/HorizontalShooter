@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" tiledversion="1.0.2" orientation="orthogonal" renderorder="right-down" width="32" height="12" tilewidth="32" tileheight="32" nextobjectid="32">
+ <tileset firstgid="1" source="ShooterMapTileSet.tsx"/>
+ <tileset firstgid="4" source="ennemy.tsx"/>
+ <layer name="Calque de Tile 1" width="32" height="12">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,3,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,0,0,0,0,0,3,3,0,0,0,0,0,3,3,3,
+0,0,0,0,0,0,1,0,0,0,1,1,0,0,0,1,1,1,0,0,0,1,1,1,1,0,0,0,3,3,3,3,
+2,0,2,2,0,2,2,2,0,2,2,2,2,0,2,2,2,2,2,0,2,2,2,2,2,2,0,3,3,3,3,3
+</data>
+ </layer>
+ <objectgroup name="enemy">
+  <object id="5" gid="4" x="994" y="128" width="26" height="32"/>
+  <object id="8" gid="6" x="192" y="284" width="23" height="24"/>
+  <object id="9" gid="6" x="228" y="254" width="23" height="24"/>
+  <object id="10" gid="6" x="191" y="218" width="23" height="24"/>
+  <object id="11" gid="6" x="230" y="189" width="23" height="24"/>
+  <object id="12" gid="6" x="193" y="155" width="23" height="24"/>
+  <object id="13" gid="7" x="426" y="63" width="19" height="19"/>
+  <object id="14" gid="7" x="458" y="86" width="19" height="19"/>
+  <object id="15" gid="7" x="488" y="117" width="19" height="19"/>
+  <object id="16" gid="7" x="521" y="150" width="19" height="19"/>
+  <object id="17" gid="7" x="552" y="186" width="19" height="19"/>
+  <object id="18" gid="7" x="581" y="218" width="19" height="19"/>
+  <object id="19" gid="7" x="614" y="244" width="19" height="19"/>
+  <object id="20" gid="7" x="647" y="273" width="19" height="19"/>
+  <object id="21" gid="5" x="453" y="359" width="32" height="32"/>
+  <object id="22" gid="5" x="292" y="358" width="32" height="32"/>
+  <object id="23" gid="5" x="163" y="359" width="32" height="32"/>
+  <object id="24" gid="5" x="645" y="358" width="32" height="32"/>
+  <object id="25" gid="5" x="869" y="357" width="32" height="32"/>
+  <object id="26" gid="5" x="900" y="326" width="32" height="32"/>
+  <object id="27" gid="5" x="933" y="294" width="32" height="32"/>
+  <object id="28" gid="5" x="964" y="261" width="32" height="32"/>
+  <object id="29" gid="5" x="997" y="231" width="32" height="32"/>
+  <object id="30" gid="5" x="80" y="358" width="32" height="32"/>
+ </objectgroup>
+</map>

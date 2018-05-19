@@ -12,6 +12,8 @@ math.randomseed(love.timer.getTime())
 
 player={}
 
+PlayerShield = 40
+
 -- Listes d'elements
 liste_Sprites = {}
 liste_Tirs = {}
@@ -21,20 +23,9 @@ liste_Aliens = {}
 sonShoot = love.audio.newSource("sons/shoot.wav", "static")
 sonExplode = love.audio.newSource("sons/explode_touch.wav", "static")
 
--- niveau 16x12
-niveau1 = {}
-table.insert(niveau1, {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0})
-table.insert(niveau1, {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0})
-table.insert(niveau1, {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0})
-table.insert(niveau1, {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0})
-table.insert(niveau1, {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0})
-table.insert(niveau1, {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0})
-table.insert(niveau1, {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0})
-table.insert(niveau1, {0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0})
-table.insert(niveau1, {0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0})
-table.insert(niveau1, {0,0,0,0,0,0,0,1,0,0,0,0,0,0,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0})
-table.insert(niveau1, {0,0,0,0,0,0,1,1,1,0,0,0,0,0,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0})
-table.insert(niveau1, {1,1,1,1,1,1,1,1,1,1,1,1,1,2,2,2,2,3,3,3,3,2,2,2,2,1,1,3,1,1,3,3})
+-- niveau 32x12
+map = require("map")
+niveau1 = map.layers[1].data
 
 -- Chargement des Images
 --les tuiles
@@ -101,13 +92,13 @@ function CreeAlien(pType, pX, pY)
   
   local nomImage=""
   if pType == 1 then
-    nomImage = "enemy1"
-  elseif pType == 2 then
-    nomImage = "enemy2"
-  elseif pType == 3 then
     nomImage = "enemy3"
-    elseif pType == 4 then
+  elseif pType == 2 then
     nomImage = "tourelle"
+  elseif pType == 3 then
+    nomImage = "enemy1"
+    elseif pType == 4 then
+    nomImage = "enemy2"
   end
   
   local alien = CreeSprite(nomImage,pX,pY)
@@ -119,20 +110,20 @@ function CreeAlien(pType, pX, pY)
   local directionAleatoire = math.random(-1,1)
   
   
-  if pType == 1 then
+  if pType == 3 then
     alien.vX = -3
     alien.vY = 0
     alien.energie = 1
-  elseif pType == 2 then
+  elseif pType == 4 then
     alien.vX = -3
     alien.vY = directionAleatoire
     alien.energie = 2
-  elseif pType == 3 then -- boss
+  elseif pType == 1 then -- boss         --done
     alien.vX = camera.vitesse*2
     alien.vY = 0
     alien.energie = 20
     alien.angle = 0
-  elseif pType == 4 then
+  elseif pType == 2 then                   --done
     alien.vX = camera.vitesse
     alien.vY = 0
     alien.energie = 2
@@ -188,17 +179,29 @@ function DemarreJeu()
   --raz player
   player = CreeSprite("heros", 40, hauteur/2)
   player.vitesse = 4
-  player.shield = 4
+  player.shield = PlayerShield
   --raz alien
-  for i= 1, math.random(10,15) do
-    local typeAlien = math.random(1,3)
-    if typeAlien == 3 then
-      CreeAlien(typeAlien+1,(64*(math.random(16,32))),hauteur-64)
-    else
-      CreeAlien(typeAlien,(64*(math.random(16,32))),math.random(64,700))
-    end
+  --for i= 1, math.random(10,15) do
+  --  local typeAlien = math.random(1,3)
+  --  if typeAlien == 3 then
+  --    CreeAlien(typeAlien+1,(64*(math.random(16,32))),hauteur-64)
+  --  else
+  --    CreeAlien(typeAlien,(64*(math.random(16,32))),math.random(64,700))
+  --  end
+  local nbLignes = #niveau1/32
+  local premierGID = 4
+  local Ennemis = map.layers[2].objects
+  local n
+  for n=1,#Ennemis do
+    local o = Ennemis[n]
+    local typeEnnemi = (o.gid-premierGID)+1
+    local posX = (o.x*2)+(64/2)
+    local posY = (o.y*2)-(64/2)
+    CreeAlien(typeEnnemi, posX, posY)
+  
+  
   end
-  CreeAlien(3,(64*32),hauteur/2)
+  --CreeAlien(3,(64*32),hauteur/2)-- en pause pour l'atelier tiled
   --raz camera
   camera.x = 0
   -- victoire
@@ -246,7 +249,7 @@ function updateJeu()
                 for nExplosion=1,5 do
                   CreeExplosion(alien.x + math.random(-10,10), alien.y + math.random(-10,10))
                 end
-                if alien.type ==  3 then
+                if alien.type ==  1 then
                   victoire = true
                   timerVictoire = 180
                   for nExplosion=1,20 do
@@ -294,19 +297,19 @@ function updateJeu()
         vX = math.cos(angle)
         vY = math.sin(angle)
         
-        if alien.type == 1 then
+        if alien.type == 4 then
           alien.chronoTir = alien.chronoTir +1
           if alien.chronoTir >= 80 then
             alien.chronoTir = 0
             CreeTir("alien","laser2", alien.x-(64/2), alien.y, -10, 0)
           end
-        elseif alien.type == 2 then
+        elseif alien.type == 3 then
           alien.chronoTir = alien.chronoTir +1
           if alien.chronoTir >= 70 then
             alien.chronoTir = 0
             CreeTir("alien","laser2", alien.x-(64/2), alien.y, -10, 0)
           end
-        elseif alien.type == 3 then
+        elseif alien.type == 1 then
           if alien.x < (largeur-(largeur/3)) then
             alien.x = (largeur-(largeur/3))
                   alien.chronoTir = alien.chronoTir +1
@@ -413,14 +416,14 @@ end
 
 function drawJeu()
   -- dessin du niveau
-  local nbLignes = #niveau1
+  local nbLignes = #niveau1/32
   local ligne,colonne
   local x = 0 + camera.x
   local y = 0 
   
   for ligne=1, nbLignes do
     for colonne=1, 32 do
-      local tuile = niveau1[ligne][colonne]
+      local tuile = niveau1[((ligne-1)*32)+colonne]
       if tuile > 0 then
         love.graphics.draw(imgTuiles[tuile],x,y,0,2,2)
       end
